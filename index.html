@@ -4,7 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIM Calendar</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, p, input, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: #333333;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .add-event {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #event-date, #event-name {
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        #event-name {
+            flex: 1;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #events {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .event {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: #555555;
+        }
+
+        .event-name {
+            margin-top: 5px;
+            color: #777777;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,6 +118,50 @@
             <div id="events"></div>
         </main>
     </div>
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadEvents);
+
+        function addEvent() {
+            const date = document.getElementById('event-date').value;
+            const name = document.getElementById('event-name').value;
+
+            if (!date || !name) {
+                alert('Please enter both date and event name');
+                return;
+            }
+
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            events.push({ date, name });
+            localStorage.setItem('events', JSON.stringify(events));
+
+            document.getElementById('event-date').value = '';
+            document.getElementById('event-name').value = '';
+
+            loadEvents();
+        }
+
+        function loadEvents() {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const eventsContainer = document.getElementById('events');
+            eventsContainer.innerHTML = '';
+
+            events.forEach(event => {
+                const eventElement = document.createElement('div');
+                eventElement.className = 'event';
+
+                const eventDate = document.createElement('div');
+                eventDate.className = 'event-date';
+                eventDate.textContent = event.date;
+
+                const eventName = document.createElement('div');
+                eventName.className = 'event-name';
+                eventName.textContent = event.name;
+
+                eventElement.appendChild(eventDate);
+                eventElement.appendChild(eventName);
+                eventsContainer.appendChild(eventElement);
+            });
+        }
+    </script>
 </body>
 </html>
