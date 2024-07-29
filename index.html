@@ -8,14 +8,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>VIM Calendar</h1>
-        <div id="calendar"></div>
-        <div class="add-event">
-            <input type="date" id="event-date">
-            <input type="text" id="event-name" placeholder="Event name">
-            <button onclick="addEvent()">Add Event</button>
-        </div>
-        <div id="events"></div>
+        <header>
+            <h1>VIM Calendar</h1>
+        </header>
+        <main>
+            <div id="calendar"></div>
+            <div class="add-event">
+                <input type="date" id="event-date">
+                <input type="text" id="event-name" placeholder="Event name">
+                <button onclick="addEvent()">Add Event</button>
+            </div>
+            <div id="events"></div>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>
